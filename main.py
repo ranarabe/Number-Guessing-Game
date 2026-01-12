@@ -8,6 +8,14 @@ generated_number = random.randint(1,100)
 difficulty_chance ={ '1': 10 , "2":5 ,"3":3 }
 
 
+def hint_sys(number):
+    if number < generated_number :
+        print(f"The number is bigger than {number}")
+    else :
+        print(f"The number is less than {number}")
+
+
+
 
 def start_the_game(imp=0):
     global generated_number
@@ -48,26 +56,25 @@ def start_the_game(imp=0):
                 break
             else :
                 print(f"Your guess is not correct , you have {difficulty-1-chance} chances left ")
+                hint_sys(guess)
         else :
-            print('''Your input is not valid!! , you lost one chance you still have {(difficulty-1)-chance} chances left ,
-             try again with number between 1-100.''')
+            print(f"Your input is not valid!! , you lost one chance you still have {difficulty-1-chance} chances left ,try again with number between 1-100.")
 
     if guessed == False :
         print(f"Unfortunately! You did not guess the correct number which was {generated_number} in {chance+1} attempts ")
-        again = input("Do you want to play again ?? [yes/no]")
+    again = input("Do you want to play again ?? [yes/no]")
 
-    if again in ["yes","no"]:
-        pass
-    else:
-        while again not in ["yes","no"]:
-            input_text2 ="Your input key is not valid write yes or no "
-            again= input(input_text2)
+
+    while again not in ["yes","no"]:
+        print("Your input key is not valid write yes or no ")
+        again= input("\t Do you want to play ?? [yes/no]")
     
     if again == "yes" :
         generated_number = random.randint(1,100)
         start_the_game()
     elif  again == "no":
         print("Okay bye bye !!!")
+        
     else :
         print("Error input ")
         
