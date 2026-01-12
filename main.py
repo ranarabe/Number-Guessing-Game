@@ -14,15 +14,18 @@ def start_the_game(imp=0):
 
     while imp == 0 :
 
-        difficulty_ID= int(input('''Please select the difficulty level by its id:
+        difficulty_ID= input('''Please select the difficulty level by its id:
             1. Easy (10 chances)
             2. Medium (5 chances)
             3. Hard (3 chances)
-            '''))
-
+            ''')
+        try:
+            difficulty_ID = int(difficulty_ID)
+        except :
+            print("The Difficulty ID is not exist use one of [1,2,3]")
         if difficulty_ID not in [1,2,3] :
-            print("The Difficulty ID is not exist use on of [1,2,3]")
-        else:
+            print("The Difficulty ID is not exist use one of [1,2,3]")
+        else :
             difficulty = int(difficulty_chance[str(difficulty_ID)])
             imp = 1 
 
@@ -34,8 +37,7 @@ def start_the_game(imp=0):
         try:
             guess = int(guess)
         except :
-            print('''Your input is not valid!! , you lost one chance you still have {(difficulty-1)-chance} chances left ,
-            try again with number between 1-100.''')
+            print(f'Your input is not valid!! , you lost one chance you still have {difficulty-1-chance} chances left ,try again with number between 1-100.')
             continue
         if  isinstance(guess, int) and ((int(guess) < 100) and (int(guess) > 0) ):
             if guess == generated_number :
@@ -52,11 +54,14 @@ def start_the_game(imp=0):
 
     if guessed == False :
         print(f"Unfortunately! You did not guess the correct number which was {generated_number} in {chance+1} attempts ")
-        input_text1 = input("Do you want to play again ?? [yes/no]")
-        
-    while input_text1 not in ["yes","no"]:
-        print("Your input key is nat valid write yes or no ")
-    again= input(input_text1)
+        again = input("Do you want to play again ?? [yes/no]")
+
+    if again in ["yes","no"]:
+        pass
+    else:
+        while again not in ["yes","no"]:
+            input_text2 ="Your input key is not valid write yes or no "
+            again= input(input_text2)
     
     if again == "yes" :
         generated_number = random.randint(1,100)
