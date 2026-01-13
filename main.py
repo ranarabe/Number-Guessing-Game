@@ -1,12 +1,19 @@
 import os
 import sys
-import datetime
+from datetime import datetime
 import random
 
-global generated_number , difficulty_chance
+
+
+
+global generated_number , difficulty_chance ,high_score_dict
 generated_number = random.randint(1,100)
 difficulty_chance ={ '1': 10 , "2":5 ,"3":3 }
-
+high_score_dict ={
+    "1":  [None,None],
+    "2":  [None,None],
+    "3":  [None,None]
+    }
 
 def hint_sys(number):
     if number < generated_number :
@@ -15,9 +22,24 @@ def hint_sys(number):
         print(f"The number is less than {number}")
 
 
+def score_saver(Dura,att,dif_id):
+
+    if  high_score_dict[str(dif_id)][0] == None :
+        print("sssssssssssssssssssssss")
+        high_score_dict[str(dif_id)][0] =att
+        high_score_dict[str(dif_id)][1] =Dura
+    elif att < high_score_dict[str(dif_id)][0] :
+        print("uuuuuuuuuuuuuuuuuuu")
+        high_score_dict[str(dif_id)][0] =att
+        high_score_dict[str(dif_id)][1] =Dura
+
+
 
 
 def start_the_game(imp=0):
+    global high_score_dict
+    start_time = datetime.now()
+
     global generated_number
 
     while imp == 0 :
@@ -49,10 +71,13 @@ def start_the_game(imp=0):
             continue
         if  isinstance(guess, int) and ((int(guess) < 100) and (int(guess) > 0) ):
             if guess == generated_number :
+                end_time = datetime.now()
+                Duration = end_time - start_time
+                print('Duration: {}'.format(Duration))
+
+                score_saver(Duration,chance,difficulty_ID ) 
                 guessed=True
-                input_text = f""" Congratulations! You guessed the correct number in {chance} attempts ,
-                Do you want to play again ?? [yes/no]"""
-                again = input(input_text)
+                print(f""" Congratulations! You guessed the correct number in {chance} attempts""")
                 break
             else :
                 print(f"Your guess is not correct , you have {difficulty-1-chance} chances left ")
@@ -74,6 +99,11 @@ def start_the_game(imp=0):
         start_the_game()
     elif  again == "no":
         print("Okay bye bye !!!")
+        print(f'''This is your highest scores  :
+            1. Easy ({high_score_dict["1"][0]} attempts )
+            2. Medium ({high_score_dict["2"][0]} attempts )
+            3. Hard ({high_score_dict["3"][0]} attempts )
+        ''')
         
     else :
         print("Error input ")
